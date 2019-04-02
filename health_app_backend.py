@@ -22,21 +22,34 @@ def index():
     	"&mealName=Dinner&sName=The+University+of+Texas+at+Austin+%2D+Housing+and+Dining"
 	content = urllib2.urlopen(url_j2).read()
 	soup = BeautifulSoup(content)
-	ret = ''
 	for link in soup.find_all('a'):
 		url2 = "http://hf-food.austin.utexas.edu/foodpro/" + link.get('href')
 		r = requests.get(url2)
 		food_soup = BeautifulSoup(r.text)
+		print(food_soup.text)
 		massage_html(food_soup)
-		ret += r.text
-	return ret
+	return 'success'
 
 #parse usable data from BeautifulSoup object and create food objects
 def massage_html(obj):
-	foodnames = obj.findAll("div", {"class": "labelrecipe"})
-	for food in foodnames:
-		print(food.text)
-	#foods = obj.findAll("div", {"class": "labelrecipe"})
+	nutrition_map = {}
+	food_name = obj.find("div", {"class": "labelrecipe"})
+	ingredients = obj.find("span", {"class": "labelingredientsvalue"})
+	allergens = obj.find("span", {"class": "labelallergensvalue"})
+	nutrition_info = obj.findAll("font")
+	for loc in range(0, len(nutrition_info)):
+		print('start of object' + str(loc))
+		spec_info = nutrition_info[loc].get_text()
+		spec_info.strip()
+		print(spec_info)
+
+		nutrition_map[]
+	#food_name = obj.find("div", {"class": "labelrecipe"})
+	#food_name = obj.find("div", {"class": "labelrecipe"})
+	#food_name = obj.find("div", {"class": "labelrecipe"})
+	#food_name = obj.find("div", {"class": "labelrecipe"})
+	#food_name = obj.find("div", {"class": "labelrecipe"})
+
 
 
 
